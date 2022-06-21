@@ -8,16 +8,19 @@ import (
 	"phantomDNS/entities"
 )
 
+// QueryDeviceByID query device info by device id
 func QueryDeviceByID(ID int) (dev entities.Device) {
 	db.Find(&dev, ID)
 	return dev
 }
 
+// QueryDeviceByRegisterName query device info by device RegisterName
 func QueryDeviceByRegisterName(RegisterName string) (dev entities.Device) {
 	db.Find(&dev, "register_name=?", RegisterName)
 	return dev
 }
 
+// GetAllDevices query all device info
 func GetAllDevices() (devices []entities.Device) {
 	db.Find(&devices)
 	return devices

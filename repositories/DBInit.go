@@ -17,6 +17,7 @@ var (
 	err error
 )
 
+// init db connection info, include read db Storage path from app.yml, set AutoMigrate
 func init() {
 	utils.ReadConfig()
 	db, err = gorm.Open(sqlite.Open(viper.GetString("SqliteStorage")), &gorm.Config{

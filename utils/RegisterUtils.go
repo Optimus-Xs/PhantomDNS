@@ -10,6 +10,7 @@ import (
 	"github.com/spf13/viper"
 )
 
+// GetCurrentAuthDev provide current authed device info allow register service access to bind register info
 func GetCurrentAuthDev(context *gin.Context) string {
 	user, exist := context.Get("user")
 	registerName := ""
@@ -19,6 +20,7 @@ func GetCurrentAuthDev(context *gin.Context) string {
 	return registerName
 }
 
+// ReadConfig set all config info source from app.yml
 func ReadConfig() {
 	viper.AddConfigPath(".")
 	viper.SetConfigName("app")

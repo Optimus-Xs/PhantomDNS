@@ -15,11 +15,13 @@ import (
 
 var ttl int
 
+// read DNS answer record ttl from app.yml
 func init() {
 	ReadConfig()
 	ttl = viper.GetInt("DDns.ttl")
 }
 
+// DnsResMsgBuilder can build DNS answer message from dnsRecord and query DNS message
 func DnsResMsgBuilder(dnsRecord entities.DnsRecord, dnsQueryMsg dns.Msg) (res dns.Msg) {
 	resourceDataLength := 4
 	if dnsRecord.DnsType == dns.TypeAAAA {
@@ -56,6 +58,7 @@ func DnsResMsgBuilder(dnsRecord entities.DnsRecord, dnsQueryMsg dns.Msg) (res dn
 	return res
 }
 
+// DnsResJsonBuilder can build DNS answer message in json format from dnsRecord, query domain and query Dns type
 func DnsResJsonBuilder(dnsRecord entities.DnsRecord, domain string, dnsType uint16) (res entities.JsonDnsMsg) {
 	res = entities.JsonDnsMsg{
 		Status:   0,
@@ -83,6 +86,7 @@ func DnsResJsonBuilder(dnsRecord entities.DnsRecord, domain string, dnsType uint
 	return res
 }
 
+// DnsTypeConverter convert DNS record type from string to uint16
 func DnsTypeConverter(dnsType string) (convertedType uint16) {
 	IntDnsType, err := strconv.ParseInt(dnsType, 10, 16)
 	if err == nil {
@@ -91,6 +95,7 @@ func DnsTypeConverter(dnsType string) (convertedType uint16) {
 	return dnsTypeMapping()(dnsType)
 }
 
+// dnsTypeMapping is mapping rule of DNS record type between sting and uint16
 func dnsTypeMapping() func(string) uint16 {
 	// typeMapping is captured in the closure returned below
 	typeMapping := map[string]uint16{
@@ -185,6 +190,7 @@ func dnsTypeMapping() func(string) uint16 {
 	}
 }
 
+// GetIpType can identify string ip address is ipv4 or ipv6
 func GetIpType(ipAddress string) uint16 {
 	if strings.Count(ipAddress, ":") >= 2 {
 		return dns.TypeAAAA
